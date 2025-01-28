@@ -50,7 +50,7 @@ Now playtest whenever wanted.
 npm run playtest -- r/<development subreddit uniquely associated to you>
 ```
 
-Visit **https://reddit.com/r/<sub>?playtest&devvitdebug=app**. Also,
+Visit **`https://reddit.com/r/<sub>?playtest&devvitdebug=app`**. Also,
 launches [local iframe development](#local-iframe-development).
 
 ⚠️ `devvit` logs do not include iframe output.
@@ -58,7 +58,8 @@ launches [local iframe development](#local-iframe-development).
 ### NPM Scripts
 
 - `install`: install app dependencies.
-- `start`: run development server on http://localhost:1234.
+- `start`: run development server on
+  [http://localhost:1234](http://localhost:1234).
 - `playtest r/<sub>`: live-reload on reddit.com. Don't forget to append the
   `?playtest&devvitdebug=app` query parameters to the URL. Also starts the local
   development server.
