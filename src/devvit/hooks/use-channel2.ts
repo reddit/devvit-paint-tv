@@ -3,12 +3,12 @@ import {
   type JSONObject,
   type UseChannelResult,
   useChannel,
-  useInterval
+  useInterval,
 } from '@devvit/public-api'
 import type {Player} from '../../shared/save.ts'
 import {
   peerDefaultDisconnectMillis,
-  peerDisconnectIntervalMillis
+  peerDisconnectIntervalMillis,
 } from '../../shared/theme.ts'
 import type {RealtimeMessage} from '../../shared/types/message.ts'
 import type {SID} from '../../shared/types/sid.ts'
@@ -51,7 +51,7 @@ export type UseChannel2Result<T extends JSONObject> = UseChannelResult<T> & {
 type PeerMap = {[sid: SID]: {time: UTCMillis; player: Readonly<Player>}}
 
 export function useChannel2<T extends JSONObject>(
-  opts: Readonly<UseChannel2Opts<T & RealtimeMessage>>
+  opts: Readonly<UseChannel2Opts<T & RealtimeMessage>>,
 ): UseChannel2Result<T> {
   // to-do: this is useful to report the number of current users but users don't
   // currently message from the title screen. add a special message?
@@ -93,7 +93,7 @@ export function useChannel2<T extends JSONObject>(
     },
     onUnsubscribed() {
       opts.onDisconnected?.()
-    }
+    },
   })
 
   return {
@@ -105,8 +105,8 @@ export function useChannel2<T extends JSONObject>(
       chan.send({
         ...msg,
         peer: opts.p1,
-        version: opts.version
+        version: opts.version,
       } satisfies RealtimeMessage)
-    }
+    },
   }
 }

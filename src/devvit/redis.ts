@@ -13,7 +13,7 @@ const postSaveByT3Key: string = 'post_save_by_t3'
 
 export async function redisQueryPostSave(
   redis: RedisClient,
-  t3: T3
+  t3: T3,
 ): Promise<PostSave | undefined> {
   const json = await redis.hGet(postSaveByT3Key, t3)
   if (json) return JSON.parse(json)
@@ -22,7 +22,7 @@ export async function redisQueryPostSave(
 /** get or create profile. */
 export async function redisQueryProfile(
   ctx: JobContext,
-  t2: T2
+  t2: T2,
 ): Promise<Profile> {
   if (t2 === noT2) return NoProfile()
   const json = await ctx.redis.hGet(profileByT2Key, t2)
@@ -34,7 +34,7 @@ export async function redisQueryProfile(
 
 export async function redisSetPostSave(
   redis: RedisClient,
-  post: Readonly<PostSave>
+  post: Readonly<PostSave>,
 ): Promise<void> {
   await redis.hSet(postSaveByT3Key, {[post.t3]: JSON.stringify(post)}) // lookup.
 }

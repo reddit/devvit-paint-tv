@@ -3,7 +3,7 @@ import {
   type PartialJSONValue,
   type UseStateInitializer,
   type UseStateResult,
-  useState
+  useState,
 } from '@devvit/public-api'
 
 // to-do: can we be more permissive with undefined without breaking the typing
@@ -19,25 +19,25 @@ import {
 //        how it pans out.
 export function useState2(
   // biome-ignore lint/suspicious/noConfusingVoidType:
-  init: UseStateInitializer<void | null>
+  init: UseStateInitializer<void | null>,
 ): UseStateResult<boolean>
 export function useState2(
-  init: UseStateInitializer<boolean>
+  init: UseStateInitializer<boolean>,
 ): UseStateResult<boolean>
 export function useState2(
-  init: UseStateInitializer<number>
+  init: UseStateInitializer<number>,
 ): UseStateResult<number>
 export function useState2(
-  init: UseStateInitializer<string>
+  init: UseStateInitializer<string>,
 ): UseStateResult<string>
 export function useState2<S>(
-  init: UseStateInitializer<S & PartialJSONValue>
+  init: UseStateInitializer<S & PartialJSONValue>,
 ): UseStateResult<S>
 export function useState2<S>(
-  init: UseStateInitializer<Promise<S & PartialJSONValue>>
+  init: UseStateInitializer<Promise<S & PartialJSONValue>>,
 ): UseStateResult<S>
 export function useState2<S extends JSONValue>(
-  init: UseStateInitializer<S>
+  init: UseStateInitializer<S>,
 ): UseStateResult<S> {
   return useState(init)
 }

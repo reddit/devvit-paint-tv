@@ -5,7 +5,7 @@ import {
   type T3,
   noSnoovatarURL,
   noT2,
-  noUsername
+  noUsername,
 } from './types/tid.ts'
 import type {UTCMillis} from './types/time.ts'
 
@@ -34,14 +34,14 @@ export type Player = {profile: Profile; sid: SID}
 
 export function PostSave(
   post: {readonly authorId: T2 | undefined; readonly createdAt: Date; id: T3},
-  seed: Readonly<PostSeed>
+  seed: Readonly<PostSeed>,
 ): PostSave {
   if (!post.authorId) throw Error('no T2')
   return {
     author: post.authorId,
     created: post.createdAt.getUTCMilliseconds() as UTCMillis,
     seed,
-    t3: post.id
+    t3: post.id,
   }
 }
 

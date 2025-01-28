@@ -3,7 +3,7 @@ import {
   Devvit,
   type JobContext,
   type Post,
-  type RedditAPIClient
+  type RedditAPIClient,
 } from '@devvit/public-api'
 import {NoProfile, type PostSeed, type Profile} from '../shared/save.ts'
 import {type T2, noSnoovatarURL, noT2, noUsername} from '../shared/types/tid.ts'
@@ -15,7 +15,7 @@ Devvit.configure({redditAPI: true})
 export async function r2CreatePost(
   ctx: Context | JobContext,
   _seed: Readonly<PostSeed>, // to-do: fix me.
-  username: string
+  username: string,
 ): Promise<Post> {
   if (!ctx.subredditName) throw Error('no sub name')
 
@@ -23,7 +23,7 @@ export async function r2CreatePost(
   const post = await ctx.reddit.submitPost({
     preview: <Preview />,
     subredditName: ctx.subredditName,
-    title: 'Paint TV ch 3' // to-do: fix me.
+    title: 'Paint TV ch 3', // to-do: fix me.
   })
 
   console.log(`post by ${username}`)
@@ -33,7 +33,7 @@ export async function r2CreatePost(
 
 export async function r2QueryProfile(
   r2: RedditAPIClient,
-  t2: T2
+  t2: T2,
 ): Promise<Profile> {
   if (t2 === noT2) return NoProfile()
   const user = await r2.getCurrentUser()

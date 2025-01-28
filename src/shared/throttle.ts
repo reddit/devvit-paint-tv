@@ -33,7 +33,7 @@ export class Throttle<T extends unknown[]> {
         this.#args = undefined
         this.fn.apply(undefined, args)
       },
-      Math.max(0, this.period - (utcMillisNow() - this.#exec))
+      Math.max(0, this.period - (utcMillisNow() - this.#exec)),
     )
   }
 }

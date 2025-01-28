@@ -6,7 +6,7 @@ import {
   type DevvitMessage,
   type PeerUpdatedMessage,
   type WebViewMessage,
-  realtimeVersion
+  realtimeVersion,
 } from '../../shared/types/message.ts'
 import {useChannel2} from '../hooks/use-channel2.js'
 import {useSession} from '../hooks/use-session.ts'
@@ -42,7 +42,7 @@ export function App(ctx: Devvit.Context): JSX.Element {
             type: 'Init',
             debug: session.debug,
             p1,
-            seed: postSave.seed
+            seed: postSave.seed,
           })
           chan.subscribe() // to-do: verify platform unsubscribes hidden posts.
           break
@@ -52,7 +52,7 @@ export function App(ctx: Devvit.Context): JSX.Element {
         default:
           msg satisfies never
       }
-    }
+    },
   })
   const chan = useChannel2<PeerUpdatedMessage>({
     chan: session.t3,
@@ -64,7 +64,7 @@ export function App(ctx: Devvit.Context): JSX.Element {
     onPeerDisconnected: peer =>
       webView.postMessage({peer, type: 'PeerDisconnected'}),
     onConnected: () => webView.postMessage({type: 'Connected'}),
-    onDisconnected: () => webView.postMessage({type: 'Disconnected'})
+    onDisconnected: () => webView.postMessage({type: 'Disconnected'}),
   })
 
   return (

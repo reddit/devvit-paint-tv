@@ -11,12 +11,12 @@ Devvit.addMenuItem({
   forUserType: ['moderator'], // to-do: allow users to posts too.
   label: 'Start Paint TV channel', // to-do: different label.
   location: 'subreddit',
-  onPress: async (_ev, ctx) => createPost(ctx, 'UI')
+  onPress: async (_ev, ctx) => createPost(ctx, 'UI'),
 })
 
 async function createPost(
   ctx: Context | JobContext,
-  mode: 'UI' | 'NoUI'
+  mode: 'UI' | 'NoUI',
 ): Promise<void> {
   const username = ctx.userId
     ? (await r2QueryProfile(ctx.reddit, T2(ctx.userId))).username

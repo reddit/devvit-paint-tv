@@ -37,6 +37,6 @@ export function useSession(ctx: Readonly<Context>): Session {
     sid, // to-do: add to Context?
     t2: T2(ctx.userId ?? noT2), // to-do: fix Context typing.
     t3: T3(ctx.postId ?? noT3), // to-do: fix Context typing.
-    userAgent: {company, client, version} as UserAgent // to-do: add to Context.
+    userAgent: {company, client, version} as UserAgent, // to-do: add to Context.
   }
 }
