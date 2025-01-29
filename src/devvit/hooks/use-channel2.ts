@@ -27,12 +27,14 @@ export type UseChannel2Opts<T extends RealtimeMessage & JSONObject> = {
   chan: T3 | string
   /** Duration of radio silence before a peer is considered offline. */
   disconnectMillis?: number
-  /** Optional hook to be informed when the channel has connected. */
+  /** When the channel has connected. */
   onConnected?: (() => void | Promise<void>) | undefined
-  /** Optional hook to be informed when the channel has disconnected. */
+  /** When the channel has disconnected. */
   onDisconnected?: (() => void | Promise<void>) | undefined
+  /** When a message with a newer schema is received. */
+  onOutdated?(): void
   onPeerConnected?: ((msg: T) => void) | undefined
-  /** Called every time a message is received on this channel. */
+  /** When a message is received. */
   onPeerMessage(msg: T): void
   onPeerDisconnected?: ((peer: Readonly<Player>) => void) | undefined
   p1: Player
@@ -84,8 +86,7 @@ export function useChannel2<T extends JSONObject>(
         opts.onPeerConnected?.(msg)
       }
       if (msg.version === opts.version) opts.onPeerMessage(msg)
-      else if (msg.version > opts.version)
-        console.info(`ignored v${msg.version} message`)
+      else if (msg.version > opts.version) opts.onOutdated?.()
     },
     onSubscribed() {
       disconnectInterval.start()
