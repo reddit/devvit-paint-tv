@@ -23,7 +23,7 @@ export async function r2CreatePost(
   const post = await ctx.reddit.submitPost({
     preview: <Preview />,
     subredditName: ctx.subredditName,
-    title: 'Paint TV ch 3', // to-do: fix me.
+    title: 'Paint TV ch 3', // to-do: fix me. we can't actually put the title here or even the post ID. we can put in the UI though.
   })
 
   console.log(`post by ${username}`)
