@@ -1,5 +1,7 @@
 # How to Play
 
+to-do: fix me.
+
 ## Painting
 
 ## Commands
@@ -31,5 +33,3 @@ painting = t3_{id} | id | url | this
 ```
 
 ## Auctions
-
-

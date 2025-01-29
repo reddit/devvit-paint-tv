@@ -1,4 +1,4 @@
-import type {T1, T2, T3} from '../../shared/types/tid.ts'
+import type {T1, T2, T3} from '../types/tid.ts'
 import {type DHM, dhmParse, dhmSerialize} from './dhm.ts'
 
 export type Command = BuyCommand | OKCommand | HelpCommand
@@ -35,9 +35,9 @@ export function commandParse(
     comment.match(/^[\s\n]*!tv\s+(buy|ok|help)\b[\s\n]*((?:.|\n)*)$/i) ?? []
   switch (cmd?.toLowerCase()) {
     case 'buy':
-      return buyCommandParse(rest ?? '', thread)
+      return parseBuy(rest ?? '', thread)
     case 'ok':
-      return okCommandParse(rest ?? '', thread)
+      return parseOK(rest ?? '', thread)
     case 'help':
       return {type: 'Help'}
   }
@@ -54,7 +54,7 @@ export function commandSerialize(cmd: Readonly<Command>): string {
   }
 }
 
-function buyCommandParse(
+function parseBuy(
   args: string,
   thread: Readonly<CommandThread>,
 ): BuyCommand | CommandError {
@@ -85,7 +85,7 @@ function buyCommandParse(
   }
 }
 
-function okCommandParse(
+function parseOK(
   args: string,
   thread: Readonly<CommandThread>,
 ): OKCommand | CommandError {

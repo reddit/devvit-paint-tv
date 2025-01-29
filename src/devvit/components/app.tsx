@@ -65,6 +65,7 @@ export function App(ctx: Devvit.Context): JSX.Element {
       webView.postMessage({peer, type: 'PeerDisconnected'}),
     onConnected: () => webView.postMessage({type: 'Connected'}),
     onDisconnected: () => webView.postMessage({type: 'Disconnected'}),
+    // to-do: onOutdated alert.
   })
 
   return (
