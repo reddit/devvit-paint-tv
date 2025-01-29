@@ -12,6 +12,8 @@ export type ColorScheme = 'light' | 'dark'
 export type Session = {
   /** whether "app" is in the devvitdebug query parameter. */
   debug: boolean
+  /** true if executing locally on device, false if remotely on server. */
+  local: boolean
   // to-do: type colorScheme to ColorScheme; move under Context.ui.
   scheme: ColorScheme | undefined
   sid: SID
@@ -33,10 +35,17 @@ export function useSession(ctx: Readonly<Context>): Session {
     ctx.debug.metadata['devvit-user-agent']?.values[0]?.split(';') ?? [] // to-do: use Headers.
   return {
     debug: 'app' in ctx.debug, // to-do: add to Context.debug.app.
+    local: isLocal(),
     scheme: ctx.uiEnvironment?.colorScheme as ColorScheme | undefined,
     sid, // to-do: add to Context?
     t2: T2(ctx.userId ?? noT2), // to-do: fix Context typing.
     t3: T3(ctx.postId ?? noT3), // to-do: fix Context typing.
     userAgent: {company, client, version} as UserAgent, // to-do: add to Context.
   }
+}
+
+/** @return true if executing locally on device, false if remotely on server. */
+function isLocal(): boolean {
+  // to-do: https://reddit.atlassian.net/browse/DX-5907.
+  return `${fetch}`.indexOf('circuitBreak') > -1
 }
