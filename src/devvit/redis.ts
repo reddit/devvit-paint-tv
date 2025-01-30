@@ -1,4 +1,4 @@
-import type {JobContext, RedisClient} from '@devvit/public-api'
+import {Devvit, type JobContext, type RedisClient} from '@devvit/public-api'
 import {NoProfile, type PostSave, type Profile} from '../shared/save.ts'
 import {type T2, type T3, noT2} from '../shared/types/tid.ts'
 import {r2QueryProfile} from './r2.tsx'
@@ -10,6 +10,8 @@ const profileByT2Key: string = 'profile_by_t2'
 
 /** immutable PostSave by post ID. */
 const postSaveByT3Key: string = 'post_save_by_t3'
+
+Devvit.configure({redis: true})
 
 export async function redisQueryPostSave(
   redis: RedisClient,

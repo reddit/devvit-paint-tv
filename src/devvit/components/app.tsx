@@ -4,7 +4,7 @@ import {ChannelStatus} from '@devvit/public-api/types/realtime'
 import {playButtonWidth} from '../../shared/theme.ts'
 import {
   type DevvitMessage,
-  type PeerUpdatedMessage,
+  type PeerMessage,
   type WebViewMessage,
   realtimeVersion,
 } from '../../shared/types/message.ts'
@@ -27,13 +27,13 @@ export function App(ctx: Devvit.Context): JSX.Element {
   const webView = useWebView<WebViewMessage, DevvitMessage>({
     onMessage(msg) {
       // if (session.debug)
-      //   console.log(`${profile.username} App msg=${JSON.stringify(msg)}`)
+      //   console.log(`${profile.username} App web view msg=${JSON.stringify(msg)}`)
 
       switch (msg.type) {
         case 'NewGame':
           // to-do: implement.
           break
-        case 'PeerUpdated':
+        case 'PeerPaint':
           if (chan.status !== ChannelStatus.Connected) break
           chan.send(msg)
           break
@@ -44,7 +44,6 @@ export function App(ctx: Devvit.Context): JSX.Element {
             p1,
             seed: postSave.seed,
           })
-          chan.subscribe() // to-do: verify platform unsubscribes hidden posts.
           break
         case 'Save':
           // to-do: implement.
@@ -54,9 +53,17 @@ export function App(ctx: Devvit.Context): JSX.Element {
       }
     },
   })
-  const chan = useChannel2<PeerUpdatedMessage>({
+  const chan = useChannel2<PeerMessage>({
     chan: session.t3,
-    onPeerMessage: msg => webView.postMessage(msg),
+    onPeerMessage(msg) {
+      if (session.debug)
+        console.log(
+          `${profile.username} App realtime msg=${JSON.stringify(msg)}`,
+        )
+      if (msg.type === 'PeerComment' && msg.comment.msg)
+        ctx.ui.showToast(msg.comment.msg)
+      webView.postMessage(msg)
+    },
     p1,
     version: realtimeVersion,
     onPeerConnected: msg =>
@@ -67,12 +74,13 @@ export function App(ctx: Devvit.Context): JSX.Element {
     onDisconnected: () => webView.postMessage({type: 'Disconnected'}),
     // to-do: onOutdated alert.
   })
+  chan.subscribe() // to-do: verify platform unsubscribes hidden posts.
 
   return (
     <Title>
       <text>
         {chan.status === ChannelStatus.Connected
-          ? `${Object.keys(chan.peers).length} online`
+          ? `${Object.keys(chan.peers).length + 1} online`
           : 'offline'}
       </text>
       {/* biome-ignore lint/a11y/useButtonType: */}

@@ -1,4 +1,4 @@
-import type {T1, T2, T3} from '../types/tid.ts'
+import {type T1, type T2, type T3, isT1} from '../types/tid.ts'
 import {type DHM, dhmParse, dhmSerialize} from './dhm.ts'
 
 export type Command = BuyCommand | OKCommand | HelpCommand
@@ -6,7 +6,7 @@ export type CommandError = {type: 'Error'; msg: string}
 export type CommandThread = {
   comment: T1
   commenter: T2
-  parent: T1 | undefined
+  parent: T1 | T3 | undefined
   post: T3
   poster: T2
 }
@@ -89,6 +89,6 @@ function parseOK(
   args: string,
   thread: Readonly<CommandThread>,
 ): OKCommand | CommandError {
-  if (!thread.parent) return {type: 'Error', msg: 'No buyer.'}
+  if (!isT1(thread.parent)) return {type: 'Error', msg: 'No buyer.'}
   return {t1: thread.parent, msg: args, type: 'OK'}
 }

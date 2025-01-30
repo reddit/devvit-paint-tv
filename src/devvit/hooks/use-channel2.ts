@@ -11,7 +11,7 @@ import {
   peerDisconnectIntervalMillis,
 } from '../../shared/theme.ts'
 import type {RealtimeMessage} from '../../shared/types/message.ts'
-import type {SID} from '../../shared/types/sid.ts'
+import {type SID, noSID} from '../../shared/types/sid.ts'
 import type {T3} from '../../shared/types/tid.ts'
 import {type UTCMillis, utcMillisNow} from '../../shared/types/time.ts'
 import {useState2} from './use-state2.ts'
@@ -78,7 +78,7 @@ export function useChannel2<T extends JSONObject>(
     name: opts.chan,
     onMessage(msg) {
       if (msg.peer.sid === opts.p1.sid) return // omit messages from self.
-      if (!(msg.peer.sid in peers)) {
+      if (msg.peer.sid !== noSID && !(msg.peer.sid in peers)) {
         setPeers(peers => {
           peers[msg.peer.sid] = {player: msg.peer, time: utcMillisNow()}
           return peers

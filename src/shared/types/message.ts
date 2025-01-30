@@ -1,5 +1,5 @@
+import type {BuyCommand, OKCommand} from '../command/command.ts'
 import type {Player, PostSeed} from '../save.ts'
-import type {XY} from './2d.ts'
 
 /**
  * a message from blocks to the iframe. Init always arrived first, usually
@@ -9,9 +9,9 @@ export type DevvitMessage =
   | InitDevvitMessage
   | {type: 'Connected'}
   | {type: 'Disconnected'}
-  | (Omit<PeerUpdatedMessage, 'type'> & {type: 'PeerConnected'})
+  | {peer: Player; type: 'PeerConnected'}
   | {peer: Player; type: 'PeerDisconnected'}
-  | PeerUpdatedMessage
+  | PeerMessage
 
 export type InitDevvitMessage = {
   /**
@@ -36,15 +36,17 @@ export type WebViewMessage =
   | {type: 'Registered'}
   | {p1: Player; type: 'NewGame'}
   | {p1: Player; type: 'Save'}
-  | PeerUpdatedMessage
+  | PeerPaintMessage
 
 /** a realtime message from another instance. */
-export type PeerUpdatedMessage = {
-  type: 'PeerUpdated'
-  sync: PlayerSync
-} & RealtimeMessage
+export type PeerMessage =
+  | (RealtimeMessage & {
+      type: 'PeerComment'
+      comment: BuyCommand | OKCommand | {msg: string}
+    })
+  | PeerPaintMessage
 
-export type PlayerSync = {xy: XY}
+export type PeerPaintMessage = RealtimeMessage & {type: 'PeerPaint'}
 
 /** base realtime message sent or received. */
 export type RealtimeMessage = {

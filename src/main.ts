@@ -5,6 +5,8 @@ import {redisSetPostSave} from './devvit/redis.js'
 import {PostSave, PostSeedFromNothing} from './shared/save.js'
 import {T2} from './shared/types/tid.js'
 
+import './devvit/triggers.js'
+
 Devvit.addCustomPostType({name: '', height: 'regular', render: App})
 
 Devvit.addMenuItem({
